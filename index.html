@@ -1,33 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Field Studio</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96x96.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            background-color: #111;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-        }
-        img {
-            max-width: 90%;
-            width: 400px;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Open Field — Experience design and strategy for arts &amp; cultural attractions</title>
+<meta name="description" content="Open Field is an independent experience design practice in Amsterdam, working with cultural institutions and the studios that build for them.">
+<link rel="stylesheet" href="https://use.typekit.net/htr3rau.css">
+<style>
+  :root {
+    --ink: #141414;
+    --paper: #ffffff;
+    --ink-on-dark: #f4f2ee;
+    --muted-on-dark: #c9c6c0;
+    --muted: #5f5c57;
+    --serif: 'argent-cf', Georgia, 'Times New Roman', serif;
+    --sans: 'neue-haas-grotesk-text', 'neue-haas-grotesk-display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
+  }
+  /* Visually hidden, available to screen readers */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+  /* Keyboard focus */
+  a:focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+  body { font-family: var(--sans); font-size: 17px; line-height: 1.6; color: var(--ink); background: var(--paper); }
+
+  .dark { background: var(--ink); color: var(--ink-on-dark); }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0; }
+
+  /* ---------- Hero (dark) ---------- */
+  .hero { padding: 52px 0 110px; }
+  .logo { display: block; margin: 0 auto; height: 27px; width: auto; }
+  /* Fallback if logo file is missing: alt text styled like a wordmark */
+  .logo-fallback {
+    text-align: center; font-weight: 700; letter-spacing: 0.18em;
+    font-size: 16px; text-transform: uppercase; color: var(--ink-on-dark);
+  }
+  .hero h1 {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(54px, 7vw, 100px); line-height: 1.14;
+    text-align: center; max-width: 13em; margin: 116px auto 0;
+  }
+  .hero-intro {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 72px;
+    margin-top: 116px; align-items: start;
+  }
+  .hero-intro .lead { font-weight: 500; font-size: 24px; line-height: 1.45; }
+  .hero-intro .beliefs p { color: var(--muted-on-dark); font-size: 18px; }
+  .hero-intro .beliefs p + p { margin-top: 20px; }
+
+  /* ---------- Section furniture ---------- */
+  section.light { padding: 100px 0; }
+  .kicker { font-weight: 700; font-size: 19px; }
+  .kicker::after { content: ""; display: block; width: 22px; height: 1px; background: currentColor; margin-top: 10px; opacity: 0.5; }
+
+  /* ---------- Services ---------- */
+  .services-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px 88px; margin-top: 64px; }
+  .service h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.2vw, 40px); line-height: 1.05; margin: 0 0 14px; padding: 0; text-indent: 0; }
+  .service p { color: var(--muted); font-size: 17px; max-width: 30em; }
+
+  /* ---------- Who we are ---------- */
+  .person { display: grid; grid-template-columns: 300px 1fr; gap: 40px; margin-top: 64px; align-items: start; }
+  .portrait {
+    width: 100%; aspect-ratio: 3/4; background: #c9c9c9;
+    object-fit: cover; display: block;
+  }
+  .person-copy p { max-width: 34em; font-size: 18px; }
+  .person-copy p + p { margin-top: 22px; }
+  .person-copy a {color: #141414;}
+  .person-copy a:hover {color: #B6094C;} /* darker pink: 6.7:1 on white (ff0064 is only 3.9:1) */
+
+  /* ---------- Where we've been ---------- */
+  .been { margin-top: 64px; }
+  .been-note { color: var(--muted); font-size: 14px; font-weight: 300; max-width: 42em; margin: 4px 0px 16px 0px;}
+  /* Logo grid math: full 960 width, 4 cols × 40px gaps → (960 − 120) / 4 = 210px per cell.
+     Logos capped at 160×60 = generous but contained. */
+  .logo-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 56px 40px; align-items: center; }
+  .logo-cell { display: flex; align-items: center; justify-content: center; min-height: 64px; }
+  .logo-cell img { max-width: 160px; max-height: 60px; width: auto; height: auto; object-fit: contain; }
+  /* Per-logo optical corrections */
+  .logo-cell img.lg-mona { max-height: 72px; max-width: 200px; }  /* +10% */
+  .logo-cell img.lg-soh { max-height: 79px; }                     /* +15% then +15% */
+  .logo-cell img.lg-nma { max-height: 69px; max-width: 184px; }   /* +15% */
+  .logo-cell img.lg-aros { max-width: 96px; max-height: 36px; }   /* −25% then −20% */
+  .logo-cell img.lg-awm { max-height: 66px; max-width: 176px; }   /* +10% */
+  .logo-cell img.lg-smart { max-height: 69px; max-width: 184px; } /* +15% */
+
+  /* ---------- Contact + footer (dark) ---------- */
+  .contact { padding: 130px 0 100px; }
+  .contact p {
+    font-family: var(--serif); font-weight: 300;
+    font-size: clamp(20px, 2.9vw, 40px); line-height: 1.35; max-width: 22em;
+  }
+  .contact a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+  .contact a:hover { color: #ff0064; }
+
+  footer.dark-footer { padding: 72px 0 68px; border-top: 1px solid rgba(255,255,255,0.12); }
+  /* Footer: address left, links right (per original design) */
+  .footer-grid { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 24px; }
+  .footer-block { font-size: 14px; line-height: 1.6; color: var(--muted-on-dark); }
+  .footer-block strong { color: var(--ink-on-dark); font-weight: 600; }
+  .footer-links { text-align: right; font-size: 16px; line-height: 1.8; }
+  .footer-links a {
+    display: block; color: var(--ink-on-dark);
+    text-decoration-thickness: 1px; text-underline-offset: 4px;
+  }
+  .footer-links a:hover {
+    color: #ff0064;
+  }
+  .footer-logo { display: block; margin: 0 0 8px 0; height: 18px; width: auto; }
+  /* Fallback if logo file is missing: alt text styled like a wordmark */
+
+  /* Edge padding only when the 960px column would touch the viewport */
+  @media (max-width: 1000px) {
+    .wrap { padding: 0 24px; }
+  }
+
+  @media (max-width: 720px) {
+    .hero h1 { margin-top: 60px; }
+    .hero-intro, .person, .been { grid-template-columns: 1fr; gap: 32px; }
+    .logo-grid { grid-template-columns: repeat(3, 1fr); }
+    .portrait { max-width: 240px; }
+    section.light { padding: 60px 0; }
+  }
+</style>
 </head>
 <body>
-    <img src="images/of_logo_stacked_white.png" alt="Open Field Studio">
+
+<!-- ================= HERO ================= -->
+<header class="dark">
+  <div class="wrap hero">
+    <img class="logo" src="logo.png" alt="Open Field" onerror="this.outerHTML='&lt;div class=&quot;logo-fallback&quot;&gt;Open Field&lt;/div&gt;'">
+
+    <h1>Experience design and&nbsp;strategy for arts &amp;&nbsp;cultural attractions</h1>
+
+    <div class="hero-intro">
+      <p class="lead">Open Field is an independent experience design practice in Amsterdam, working with cultural institutions and the studios that build for them.</p>
+      <div class="beliefs">
+        <p>Memorable experiences begin with powerful stories. Our first step is to simply listen. Stories emerge in all sorts of ways. We help to develop these into imaginative new forms of storytelling.</p>
+        <p>We achieve this storytelling approach by collaborating across a range of disciplines: visual, spatial, and media design, technology, behavioural science, all combined to provide a novel experience for visitors.</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+<!-- ================= WHAT WE DO ================= -->
+<section class="light">
+  <div class="wrap">
+    <h2 class="kicker">What we do</h2>
+    <div class="services-grid">
+      <div class="service">
+        <h3>Concept &amp; story</h3>
+        <p>We shape concept development, content strategy, and narrative frameworks. We map the visitor journey and define novel ways people can interact within a space.</p>
+      </div>
+      <div class="service">
+        <h3>Design direction</h3>
+        <p>Design leadership across interactive, visual, spatial, and media design. We collaborate closely with curators, content teams, developers and spatial designers to bring new experiences to life.</p>
+      </div>
+      <div class="service">
+        <h3>Prototyping</h3>
+        <p>We make stuff! Tangible stuff that we can iterate on and refine based on what we learn along the way. We love to see how concepts and stories evolve by making.</p>
+      </div>
+      <div class="service">
+        <!-- ✏️ EB: 4th slot still TBD — Advisory squatting -->
+        <h3>Fieldwork™</h3>
+        <p>The stage before the brief. We get to know your collection, your site, and your people, then help you decide what to build next, why it matters for visitors, and who to build it with.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHO WE ARE ================= -->
+<section class="light" id="about" style="padding-top: 0;">
+  <div class="wrap">
+    <h2 class="kicker">Who we are</h2>
+    <div class="person">
+      <img class="portrait" src="ed.jpg" alt="Edward Blake, founder of Open Field Studio">
+      <div class="person-copy">
+        <p>Open Field Studio is led by Ed Blake, an experience designer with twenty years in arts and culture, including roles as Design Director at <a href="http://artprocessors.net">Art Processors</a> and Interaction Designer at <a href="http://localprojects.net">Local Projects</a> in NYC.</p>
+        <p>In those roles Ed led experience design projects for the <a href="https://www.theguardian.com/artanddesign/2026/jun/22/phrontisteriona-mona-hobart-david-walsh-library-book-collection-shakespeare-bowie">Museum of Old and New Art (Mona)</a>, <a href="https://www.nma.gov.au/exhibitions/great-southern-land">the National Museum of Australia</a>, <a href="https://www.clevelandart.org/artlens-origins">the Cleveland Museum of Art</a>, the American Museum of Natural History, and ARoS Kunstmuseum, among others.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHERE WE'VE BEEN ================= -->
+<section class="light" style="padding-top: 0;">
+  <div class="wrap">
+    <h2 class="kicker">Who we've served</h2>
+    <p class="been-note">Institutions Ed has designed for while at Art Processors and Local Projects</p>
+    <div class="been">
+      <div class="logo-grid">
+        <div class="logo-cell"><img src="logos/mona.png" alt="Museum of Old and New Art" class="lg-mona"></div>
+        <div class="logo-cell"><img src="logos/amnh.png" alt="American Museum of Natural History"></div>
+        <div class="logo-cell"><img src="logos/soh.png" alt="Sydney Opera House" class="lg-soh"></div>
+        <div class="logo-cell"><img src="logos/ngs.png" alt="National Gallery Singapore"></div>
+        <div class="logo-cell"><img src="logos/cma.png" alt="Cleveland Museum of Art"></div>
+        <div class="logo-cell"><img src="logos/nma.png" alt="National Museum of Australia" class="lg-nma"></div>
+        <div class="logo-cell"><img src="logos/aros.png" alt="ARoS Kunstmuseum" class="lg-aros"></div>
+        <div class="logo-cell"><img src="logos/awm.png" alt="Australian War Memorial" class="lg-awm"></div>
+        <div class="logo-cell"><img src="logos/wam.png" alt="Western Australian Museum"></div>
+        <div class="logo-cell"><img src="logos/nt.png" alt="National Trust of Victoria (Pentridge Prison)"></div>
+        <div class="logo-cell"><img src="logos/knight.png" alt="Knight Foundation"></div>
+        <div class="logo-cell"><img src="logos/smart.png" alt="Smart Museum of Art" class="lg-smart"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<div class="dark">
+  <div class="wrap contact" id="contact">
+    <h2 class="sr-only">Contact</h2>
+    <!-- ✏️ EB: href now matches the visible address — confirm edward@ (not hello@) is the mailbox you'll create -->
+    <p>Working on something interesting? We're open to projects, collaborations, and good conversations. <a href="mailto:edward@openfieldstudio.nl">edward@openfieldstudio.nl</a></p>
+  </div>
+</div>
+</main>
+
+<!-- ================= FOOTER ================= -->
+<div class="dark">
+  <footer class="dark-footer">
+    <div class="wrap footer-grid">
+      <div class="footer-block">
+        <img class="footer-logo" src="logo.png" alt="OPEN FIELD" onerror="this.outerHTML='&lt;div class=&quot;logo-fallback&quot;&gt;Open Field&lt;/div&gt;'">
+        Herengracht 420<br>
+        1017 BZ Amsterdam<br>
+        KvK: 42063185
+      </div>
+      <div class="footer-links">
+        <a href="https://www.linkedin.com/in/eblake">LinkedIn</a>
+        <a href="https://edwardblake.net">edwardblake.net</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
 </body>
 </html>
